@@ -59,6 +59,7 @@ export default class DigitalClock extends Component {
     }
 
     state = {
+        date: getDate(),
         dimensions: {
             width: -1,
             height: -1,
