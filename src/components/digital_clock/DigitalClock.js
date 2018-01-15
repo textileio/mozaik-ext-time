@@ -24,13 +24,19 @@ const innerContainerStyle = {
     alignItems: 'center',
 }
 
-const getDate = timezone => (timezone ? moment().tz(timezone) : moment())
+const getDate = time => {
+    const iso = time || 0
+    let timezone = moment(iso)._tzm
+    return moment.utc(iso).add(timezone, 'minutes')
+}
 
 export default class DigitalClock extends Component {
     static propTypes = {
+        apiData: PropTypes.shape({
+            time: PropTypes.string,
+        }),
         displayDate: PropTypes.bool.isRequired,
         displaySeconds: PropTypes.bool.isRequired,
-        timezone: PropTypes.oneOf(moment.tz.names()),
         color: PropTypes.string,
         theme: PropTypes.object.isRequired,
     }
@@ -51,7 +57,7 @@ export default class DigitalClock extends Component {
         super(props)
 
         this.state = {
-            date: getDate(props.timezone),
+            date: getDate((props.apiData || {}).time),
             dimensions: {
                 width: -1,
                 height: -1,
@@ -61,7 +67,7 @@ export default class DigitalClock extends Component {
 
     componentDidMount() {
         setInterval(() => {
-            this.setState({ date: getDate(this.props.timezone) })
+            this.setState({ date: getDate((this.props.apiData || {}).time) })
         }, 1000)
     }
 

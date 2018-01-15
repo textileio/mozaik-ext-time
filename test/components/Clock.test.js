@@ -38,12 +38,16 @@ describe('info', () => {
         expect(wrapper.find(Info).childAt(0).text()).toBe(sampleInfo)
     })
 
-    it(`should display given timezone when set to 'timezone'`, () => {
+    it(`should display timezone offset`, () => {
         const wrapper = shallow(
-            <Clock theme={theme} info="timezone" timezone="America/Los_Angeles" />
+            <Clock
+                theme={theme}
+                info="timezone"
+                apiData={{ time: '2018-01-14T22:28:36.750-05:00' }}
+            />
         )
 
-        expect(wrapper.find(Info).childAt(0).text()).toBe('Los Angeles')
+        expect(wrapper.find(Info).childAt(0).text()).toBe('-300')
     })
 
     it(`should display time when set to 'time'`, () => {

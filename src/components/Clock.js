@@ -79,11 +79,14 @@ export const DayNightIndicator = styled.div`
     color: ${props => props.colors.dayNightIcon};
 `
 
-const getCurrentTimeParts = timezoneName => {
-    let currentTime = timezoneName ? moment().tz(timezoneName) : moment()
+const getCurrentTimeParts = time => {
+    const iso = time || 0
+    let timezone = moment(iso)._tzm
+    let currentTime = moment.utc(iso).add(timezone, 'minutes')
 
     return {
         moment: currentTime,
+        timezone,
         hours: currentTime.hours() + currentTime.minutes() / 60,
         minutes: currentTime.minutes(),
         seconds: currentTime.seconds(),
@@ -98,9 +101,11 @@ const sunFormats = ['HH:mm', 'H:mm', 'H:m']
 
 export default class Clock extends Component {
     static propTypes = {
+        apiData: PropTypes.shape({
+            time: PropTypes.string,
+        }),
         title: PropTypes.string,
         info: PropTypes.string,
-        timezone: PropTypes.oneOf(moment.tz.names()),
         sunRise: PropTypes.string.isRequired,
         sunSet: PropTypes.string.isRequired,
         colors: PropTypes.object,
@@ -117,20 +122,24 @@ export default class Clock extends Component {
         sunSet: '18:00',
     }
 
+    static getApiRequest() {
+        return { id: 'loom.time' }
+    }
+
     constructor(props) {
         super(props)
 
-        this.state = getCurrentTimeParts(this.props.timezone)
+        this.state = getCurrentTimeParts((props.apiData || {}).time)
     }
 
     componentDidMount() {
         setInterval(() => {
-            this.setState(getCurrentTimeParts(this.props.timezone))
+            this.setState(getCurrentTimeParts((this.props.apiData || {}).time))
         }, 1000)
     }
 
     render() {
-        const { hours, minutes, seconds } = this.state
+        const { hours, minutes, seconds, timezone } = this.state
 
         const { sunRise, sunSet, colors: _colors, theme } = this.props
 
@@ -166,9 +175,7 @@ export default class Clock extends Component {
 
         // Textual field, defaults to config value
         const infoFields = {
-            timezone: this.props.timezone
-                ? this.props.timezone.replace(/\w+\//, '').replace('_', ' ')
-                : this.props.timezone,
+            timezone,
             date: this.state.moment.format('ll'),
             time: this.state.moment.format('LT'),
         }
