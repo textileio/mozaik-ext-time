@@ -106,7 +106,7 @@ export default class DigitalClock extends Component {
             <Widget>
                 <WidgetHeader
                     title={<span>Current Time</span>}
-                    subject={'tz: ' + date._tzm || 0}
+                    subject={'tz: ' + (date._tzm || 0)}
                     subjectPlacement="append"
                     icon={dayNightIcon}
                 />
