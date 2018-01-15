@@ -4,7 +4,9 @@ import moment from 'moment'
 import 'moment-timezone/builds/moment-timezone-with-data'
 import styled from 'styled-components'
 import Measure from 'react-measure'
-import { Widget } from '@mozaik/ui'
+import { Widget, WidgetHeader } from '@mozaik/ui'
+import DayIcon from 'react-icons/lib/fa/sun-o'
+import NightIcon from 'react-icons/lib/fa/moon-o'
 import DigitalClockDate from './DigitalClockDate'
 import DigitalClockTime from './DigitalClockTime'
 
@@ -30,11 +32,15 @@ const getDate = time => {
     return moment.utc(iso).add(timezone, 'minutes')
 }
 
+const sunFormats = ['HH:mm', 'H:mm', 'H:m']
+
 export default class DigitalClock extends Component {
     static propTypes = {
         apiData: PropTypes.shape({
             time: PropTypes.string,
         }),
+        sunRise: PropTypes.string.isRequired,
+        sunSet: PropTypes.string.isRequired,
         displayDate: PropTypes.bool.isRequired,
         displaySeconds: PropTypes.bool.isRequired,
         color: PropTypes.string,
@@ -44,6 +50,8 @@ export default class DigitalClock extends Component {
     static defaultProps = {
         displayDate: true,
         displaySeconds: true,
+        sunRise: '06:00',
+        sunSet: '18:00',
     }
 
     static getApiRequest() {
@@ -76,7 +84,7 @@ export default class DigitalClock extends Component {
     }
 
     render() {
-        const { displayDate, displaySeconds, color: _color, theme } = this.props
+        const { sunRise, sunSet, displayDate, displaySeconds, color: _color, theme } = this.props
         const { date, dimensions: { width, height } } = this.state
 
         const color = _color || theme.root.color
@@ -84,8 +92,29 @@ export default class DigitalClock extends Component {
         const shouldRender = width > 0 && height > 0
         const shouldRenderDate = shouldRender && displayDate
 
+        const sunRiseTime = moment(sunRise, sunFormats)
+        const sunSetTime = moment(sunSet, sunFormats)
+
+        const sunRiseDate = this.state.moment
+            .clone()
+            .hours(sunRiseTime.hours())
+            .minutes(sunRiseTime.minutes())
+        const sunSetDate = this.state.moment
+            .clone()
+            .hours(sunSetTime.hours())
+            .minutes(sunSetTime.minutes())
+
+        const isDay = this.state.moment.isBetween(sunRiseDate, sunSetDate)
+        const dayNightIcon = isDay ? <DayIcon /> : <NightIcon />
+
         return (
             <Widget>
+                <WidgetHeader
+                    title={<span>Current Time</span>}
+                    subject={'tz: ' + date._tzm}
+                    subjectPlacement="append"
+                    icon={dayNightIcon}
+                />
                 <Container>
                     <Measure
                         onResize={contentRect => {
