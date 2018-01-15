@@ -46,6 +46,10 @@ export default class DigitalClock extends Component {
         displaySeconds: true,
     }
 
+    static getApiRequest() {
+        return { id: 'loom.time' }
+    }
+
     state = {
         dimensions: {
             width: -1,
