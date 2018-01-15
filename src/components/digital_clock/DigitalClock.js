@@ -92,19 +92,13 @@ export default class DigitalClock extends Component {
         const shouldRender = width > 0 && height > 0
         const shouldRenderDate = shouldRender && displayDate
 
-        const sunRiseTime = moment(sunRise, sunFormats)
-        const sunSetTime = moment(sunSet, sunFormats)
+        const sunRiseTime = moment.utc(sunRise, sunFormats)
+        const sunSetTime = moment.utc(sunSet, sunFormats)
 
-        const sunRiseDate = this.state.moment
-            .clone()
-            .hours(sunRiseTime.hours())
-            .minutes(sunRiseTime.minutes())
-        const sunSetDate = this.state.moment
-            .clone()
-            .hours(sunSetTime.hours())
-            .minutes(sunSetTime.minutes())
+        const sunRiseDate = date.clone().hours(sunRiseTime.hours()).minutes(sunRiseTime.minutes())
+        const sunSetDate = date.clone().hours(sunSetTime.hours()).minutes(sunSetTime.minutes())
 
-        const isDay = this.state.moment.isBetween(sunRiseDate, sunSetDate)
+        const isDay = date.isBetween(sunRiseDate, sunSetDate)
         const dayNightIcon = isDay ? <DayIcon /> : <NightIcon />
 
         return (

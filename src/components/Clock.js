@@ -86,7 +86,6 @@ const getCurrentTimeParts = time => {
 
     return {
         moment: currentTime,
-        timezone,
         hours: currentTime.hours() + currentTime.minutes() / 60,
         minutes: currentTime.minutes(),
         seconds: currentTime.seconds(),
@@ -139,7 +138,7 @@ export default class Clock extends Component {
     }
 
     render() {
-        const { hours, minutes, seconds, timezone } = this.state
+        const { hours, minutes, seconds } = this.state
 
         const { sunRise, sunSet, colors: _colors, theme } = this.props
 
@@ -158,8 +157,8 @@ export default class Clock extends Component {
             _colors
         )
 
-        const sunRiseTime = moment(sunRise, sunFormats)
-        const sunSetTime = moment(sunSet, sunFormats)
+        const sunRiseTime = moment.utc(sunRise, sunFormats)
+        const sunSetTime = moment.utc(sunSet, sunFormats)
 
         const sunRiseDate = this.state.moment
             .clone()
@@ -175,7 +174,7 @@ export default class Clock extends Component {
 
         // Textual field, defaults to config value
         const infoFields = {
-            timezone,
+            timezone: this.state.moment._tzm,
             date: this.state.moment.format('ll'),
             time: this.state.moment.format('LT'),
         }
