@@ -28,7 +28,7 @@ const innerContainerStyle = {
 
 const getDate = time => {
     const iso = time || 0
-    let timezone = moment(iso)._tzm
+    let timezone = moment(iso)._tzm || 0
     return moment.utc(iso).add(timezone, 'minutes')
 }
 
@@ -106,7 +106,7 @@ export default class DigitalClock extends Component {
             <Widget>
                 <WidgetHeader
                     title={<span>Current Time</span>}
-                    subject={'tz: ' + date._tzm}
+                    subject={'tz: ' + date._tzm || 0}
                     subjectPlacement="append"
                     icon={dayNightIcon}
                 />

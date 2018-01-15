@@ -1,6 +1,6 @@
 {
   "name": "@textile/mozaik-ext-time",
-  "version": "2.0.0-alpha.15",
+  "version": "2.0.0-alpha.16",
   "description": "Mozaik time widgets",
   "repository": {
     "type": "git",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@mozaik/babel-preset": "^1.0.0-alpha.6",
-    "@mozaik/ui": "^2.0.0-alpha.11",
+    "@mozaik/ui": "^2.0.0-alpha.15",
     "babel-cli": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
@@ -61,7 +61,7 @@
     "validate-commit-msg": "^2.14.0"
   },
   "peerDependencies": {
-    "@mozaik/ui": "^2.0.0-alpha.11",
+    "@mozaik/ui": "^2.0.0-alpha.15",
     "react": "^15.6.1"
   },
   "scripts": {

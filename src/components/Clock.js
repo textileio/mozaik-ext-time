@@ -81,7 +81,7 @@ export const DayNightIndicator = styled.div`
 
 const getCurrentTimeParts = time => {
     const iso = time || 0
-    let timezone = moment(iso)._tzm
+    let timezone = moment(iso)._tzm || 0
     let currentTime = moment.utc(iso).add(timezone, 'minutes')
 
     return {
@@ -174,7 +174,7 @@ export default class Clock extends Component {
 
         // Textual field, defaults to config value
         const infoFields = {
-            timezone: this.state.moment._tzm,
+            timezone: this.state.moment._tzm || 0,
             date: this.state.moment.format('ll'),
             time: this.state.moment.format('LT'),
         }
