@@ -1,6 +1,6 @@
 {
   "name": "@textile/mozaik-ext-time",
-  "version": "2.0.0-alpha.18",
+  "version": "2.0.0-alpha.19",
   "description": "Mozaik time widgets",
   "repository": {
     "type": "git",
@@ -35,7 +35,7 @@
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "prop-types": "^15.5.10",
-    "react-icons": "^2.2.7",
+    "react-icons": "^2.2.5",
     "react-measure": "^2.0.2",
     "styled-components": "^2.1.1"
   },

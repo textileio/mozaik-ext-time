@@ -12,7 +12,7 @@ import DigitalClockTime from './DigitalClockTime'
 
 const Container = styled.div`
     padding: 3vmin;
-    width: 80%;
+    width: 100%;
     height: 80%;
 `
 
@@ -100,7 +100,7 @@ export default class DigitalClock extends Component {
         const sunSetDate = date.clone().hours(sunSetTime.hours()).minutes(sunSetTime.minutes())
 
         const isDay = date.isBetween(sunRiseDate, sunSetDate)
-        const dayNightIcon = isDay ? <DayIcon /> : <NightIcon />
+        const dayNightIcon = isDay ? DayIcon : NightIcon
 
         return (
             <Widget>
