@@ -11,14 +11,14 @@ import DigitalClockDate from './DigitalClockDate'
 import DigitalClockTime from './DigitalClockTime'
 
 const Container = styled.div`
-    padding: 3vmin;
+    padding: 0 3vmin 3vmin;
     width: 100%;
-    height: 80%;
+    height: 100%;
 `
 
 const innerContainerStyle = {
     width: '100%',
-    height: '100%',
+    height: '85%',
     flex: 1,
     flexDirection: 'column',
     display: 'flex',
@@ -106,7 +106,7 @@ export default class DigitalClock extends Component {
             <Widget>
                 <WidgetHeader
                     title={<span>Current Time</span>}
-                    subject={'tz: ' + (date._tzm || 0)}
+                    subject={' - tz: ' + (date._tzm || 0)}
                     subjectPlacement="append"
                     icon={dayNightIcon}
                 />
